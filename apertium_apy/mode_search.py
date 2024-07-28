@@ -28,19 +28,19 @@ def is_loop(dirpath, rootpath, real_root=None):
 
 def search_voikko_paths(voikko_path='~/.voikko/3'):
     voikko_path = os.path.expanduser(voikko_path)
-    voikko_modes = []
+    spell_modes = []
 
     if not os.path.exists(voikko_path):
         logging.warning('Voikko path does not exist: {}'.format(voikko_path))
-        return voikko_modes
+        return spell_modes
 
     for filename in os.listdir(voikko_path):
         if filename.endswith('.zhfst'):
             alpha2_code = filename.split('.')[0]
             lang3_code = to_alpha3_code(alpha2_code)
-            voikko_modes.append(lang3_code)
+            spell_modes.append(lang3_code)
 
-    return voikko_modes
+    return spell_modes
 
 def search_path(rootpath, include_pairs=True, verbosity=1):
     lang_code = r'[a-z]{2,3}(?:_[A-Za-z0-9]+)*'
@@ -89,8 +89,8 @@ def search_path(rootpath, include_pairs=True, verbosity=1):
                                 to_alpha3_code(lang_trg))
                         modes[mtype].append(mode)
 
-    voikko_modes = search_voikko_paths()
-    modes['voikko'] = voikko_modes
+    spell_modes = search_voikko_paths()
+    modes['voikko'] = spell_modes
 
     if verbosity > 1:
         _log_modes(modes)
